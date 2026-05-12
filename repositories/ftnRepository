@@ -1,0 +1,98 @@
+const sql = require("mssql");
+const poolPromise = require("../db");
+
+async function findByFtnNo(ftnNo) {
+
+    const pool = await poolPromise;
+    // database connection
+
+    const result = await pool
+          .request()
+          .input("ftnNo", sql.VarChar, ftnNo)
+          .query(`SELECT * FROM dbo.FTN WHERE FTN_No = @ftnNo`);
+
+          // "ftnNo" creates the SQL parameter @ftnNo. and ftnNo is its value.
+
+            // creates a sql request object(prepare a query execution)
+            /*
+            insert into parameter name(in the sql query) = "ftnNo"
+            SQL type = VARCHAR
+            value(ftnNo) = actual ftnNo variable
+
+            Runs SQL query.
+            */
+          /*
+            Notice:
+
+            @ftnNo
+
+            matches:
+
+            .input("ftnNo", ...)
+          */
+
+    return result.recordset[0];
+
+    /*
+
+    8. Result
+
+    SQL Server returns:
+
+    {
+    recordset: [...]
+    }
+
+    Example:
+
+    {
+    recordset: [
+        {
+            FTN_No: "2001000026",
+            Brand: "Samsung"
+        }
+    ]
+    }
+
+
+    9. Return first row
+    return result.recordset[0];
+
+    Because:
+
+    FTN_No is primary key
+    only one row should exist
+
+    Equivalent to:
+
+    Ftn
+
+    instead of:
+
+    List<Ftn>
+
+
+
+
+    JavaScript variable
+    ftnNo = "2001000026"
+
+    ↓ put into
+
+    .input("ftnNo", sql.VarChar, ftnNo)
+
+    ↓ creates
+
+    @ftnNo = "2001000026"
+
+    ↓ used by query
+
+    WHERE FTN_No = @ftnNo
+    */
+}
+
+module.exports = {
+    findByFtnNo
+};
+
+
