@@ -29,34 +29,53 @@ async function findByFtnNo(req, res) {
 }
 
 
-// async function ftnLabelCreation(req, res) {
+async function ftnLabelCreation(req, res) {
 
-//     // use try because database calls can fail.
-//     try {
-//         const ftnNo = req.query.ftnNo;
+    // use try because database calls can fail.
+    try {
+        const ftnNo = req.query.ftnNo;
 
-//         const pdfBuffer = await ftnService.ftnLabelCreation(ftnNo);
+        const pdfBuffer = await ftnService.ftnLabelCreation(ftnNo);
 
-//         res.setHeader("Content-Type", "application/pdf");
-//         res.send(pdfBuffer);
+        res.setHeader("Content-Type", "application/pdf");
+        res.send(pdfBuffer);
+        /*
+        Express sends the Buffer as binary HTTP response data.
+
+        The client/browser can read it because you also set:
+
+        res.setHeader("Content-Type", "application/pdf");
+
+        which tells the client:
+
+        this binary data is a PDF file
+
+
+        Think of Buffer as:
+
+        a container holding raw bytes
+
+        The client reads those bytes according to the content type.
+        */
         
-//         /*
-//         await means:
+        /*
+        await means:
 
-//         wait until the database result comes back
-//         then continue
+        wait until the database result comes back
+        then continue
 
-//         Flow:
+        Flow:
 
-//         Controller → Service → Repository → Database
-//         */
-//     } catch (error) {
-//         res.status(500).send(error.message);
-//     }
-// }
+        Controller → Service → Repository → Database
+        */
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+}
 
 module.exports = {
     findByFtnNo,
+    ftnLabelCreation
 };
 
         /*

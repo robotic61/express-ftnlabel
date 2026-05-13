@@ -1,6 +1,7 @@
 const sql = require("mssql");
 const poolPromise = require("../db");
 
+// function used to work with the database.
 async function findByFtnNo(ftnNo) {
 
     const pool = await poolPromise;
@@ -32,12 +33,13 @@ async function findByFtnNo(ftnNo) {
           */
 
     return result.recordset[0];
+    // returns a single object(first object)
 
     /*
 
     8. Result
 
-    SQL Server returns:
+    SQL Server returns: (array of objects)
 
     {
     recordset: [...]
