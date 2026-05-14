@@ -127,6 +127,7 @@ async function ftnLabelCreation(ftnNo) {
     const normalFont = await document.embedFont(StandardFonts.Helvetica);
 
     // much simpler than PDFBox
+    // coordinates resets after each drawText
     page.drawText("P/N:", {
         x: 55,
         y: 110,
